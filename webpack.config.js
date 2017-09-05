@@ -1,26 +1,50 @@
+var webpack = require('webpack');
+var HtmlWebpackPlugin = require("html-webpack-plugin");
+var path = require('path');
+
+const VENDOR_LIBS = ['react','react-dom',"axios",
+"react-redux","react-router","redux","redux-form",
+"redux-promise","lodash","react-toastr","react-spinkit",
+"react-router-dom","react-bootstrap","react-addons-css-transition-group",
+"babel-preset-stage-1"
+];
+
+
 module.exports = {
-  entry: [
-    './src/index.js'
-  ],
+  entry: {
+    bundle:'./src/index.js',
+    vendor:VENDOR_LIBS
+  },
   output: {
-    path: __dirname,
-    publicPath: '/',
-    filename: 'bundle.js'
+    path: path.join(__dirname, 'dist'),
+    filename: '[name].[hash].js',
+    publicPath:'/'
   },
   module: {
-    loaders: [{
-      exclude: /node_modules/,
-      loader: 'babel',
-      query: {
-        presets: ['react', 'es2015', 'stage-1']
+    rules:[
+      {
+        use:'babel-loader',
+        test:/\.js$/,
+        exclude:/node_modules/
+      },
+      {
+        use:['style-loader','css-loader'],
+        test:/\.css$/
       }
-    }]
+
+    ] 
   },
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
+   plugins:[
+    new webpack.optimize.CommonsChunkPlugin({
+      names:['vendor','manifest']
+    }),
+    new HtmlWebpackPlugin({
+      template:'src/index.html'
+    })
+  ],
   devServer: {
     historyApiFallback: true,
-    contentBase: './'
+    contentBase: './',
+    inline:true
   }
 };
