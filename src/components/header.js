@@ -1,11 +1,9 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
-import Navbar from "react-bootstrap/lib/NavbarHeader";
-import Nav from "react-bootstrap/lib/NavbarHeader";
-import NavItem from "react-bootstrap/lib/NavItem";
-import NavDropdown  from 'react-bootstrap/lib/NavDropdown';
-import MenuItem  from 'react-bootstrap/lib/MenuItem';
+import {Navbar} from "react-bootstrap";
+import {Nav} from 'react-bootstrap';
+import {NavItem} from 'react-bootstrap';
 
 class Header extends Component{
 
@@ -16,7 +14,7 @@ class Header extends Component{
 				<Navbar>
 				    <Navbar.Header>
 				      <Navbar.Brand>
-				        <a href="#">React-Bootstrap</a>
+				        <a href="#">DentistApp</a>
 				      </Navbar.Brand>
 				    </Navbar.Header>
 				    <Nav>
