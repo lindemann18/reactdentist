@@ -1,8 +1,13 @@
-import {AUTH_USER} from '../actions/types';
+import {AUTH_USER,UNAUTH_USER} from '../actions/types';
 
 export default function (state = {},action){
 	switch(action.types){
-		case AUTH_USER
+		case AUTH_USER:
 			return {...state,authenticated:true,error:''}
+
+		case UNAUTH_USER:
+			return {...state,authenticated:false};
 	}
+
+	return state;
 }

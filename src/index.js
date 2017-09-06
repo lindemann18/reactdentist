@@ -6,7 +6,8 @@ import {Router,Route,IndexRoute,browserHistory} from 'react-router';
 import reduxThunk 								from 'redux-thunk';
 
 import App from './components/app';
-import Login from './auth/login';
+import Login from './components/auth/login';
+import RequireAuth from './components/auth/require_auth';
 import reducers from './reducers';
 import {AUTH_USER} 								from './actions/types';
 
@@ -21,7 +22,10 @@ if(token)
 }
 
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
-    <App />
+  <Provider store={store}>
+    	<Router history={browserHistory}>
+    		<Route path='/' component={RequireAuth(App)}/>
+    		<Route path='/login' component={Login}/>
+    	</Router>
   </Provider>
   , document.querySelector('.container'));
