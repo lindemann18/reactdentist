@@ -12,22 +12,62 @@ const renderField = ({ input, label, type, meta: { touched, error, warning } }) 
 	)
 
 class Login extends Component{
+	handleformSubmit({user,password})
+	{
+		this.props.signinUser({user,password});
+	}
+
+	renderAlert()
+	{
+		if(this.props.errorMessage)
+		{
+			return(
+				<div className="alert alert-danger">
+					<strong>Oops! </strong>{this.props.errorMessage}
+				</div>
+			);
+		}
+	}
+
 	render()
 	{
+		const {handleSubmit} = this.props;
+
 		return(
-			<form >	
-				<Field name="email" component={renderField} type="email" label="Email"/>
+			<form className="col-md-6 col-md-offset-3" onSubmit={handleSubmit(this.handleformSubmit.bind(this))}>	
+				<Field name="user" component={renderField} type="text" label="Email"/>
        			 <Field name="password" component={renderField} type="password" label="Password"/>
-       			 <Field name="passwordConfirm" component={renderField} type="password" label="Password Confirmation"/>
-				<button action="submit" className="btn btn-primary">Sign up</button>
+       			<button action="submit" className="btn btn-primary">Login</button>
 			</form>
 		);
 	}
 
 }
 
-Login = connect(null, actions)(Login)
+function validate(formProps)
+{
+	const errors = {};
+
+	if(!formProps.user)
+	{
+		errors.user = "Please write an user";
+	}
+
+	if(!formProps.password)
+	{
+		errors.password = "Please write a password";
+	}
+
+	return errors;
+}
+
+const mapStateToProps = state=>{
+	return {errorMessage:state.auth.error};
+}
+
+Login = connect(mapStateToProps, actions)(Login)
  
 export default reduxForm({
-  form: 'login'
+  form: 'login',
+  validate
 })(Login)

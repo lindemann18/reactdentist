@@ -3,7 +3,13 @@ import {AUTH_USER} from './types';
 
 const ROOT_URL = 'http://ashernetz.com/dentstapi/index.php';
 
-export function signinUser({email,password}){
-	console.log(email);
-	console.log(password);
+export function signinUser({user,password}){
+	return function(dispatch)
+	{
+		axios.get(`${ROOT_URL}/users/${user}/${password}`)
+		.then(response=>{
+			//dispatch({type:AUTH_USER});
+			console.log(response.data);
+		})
+	}
 }
