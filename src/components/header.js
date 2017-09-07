@@ -7,6 +7,11 @@ import {NavItem} from 'react-bootstrap';
 
 class Header extends Component{
 
+	Redirect(address)
+	{
+		alert(address);
+	}
+
 	render()
 	{
 		return(
@@ -20,6 +25,7 @@ class Header extends Component{
 				    <Nav>
 				      <NavItem eventKey={1} href="#">Link</NavItem>
 				      <NavItem eventKey={2} href="#">Link</NavItem>
+				      <NavItem eventKey={3} href="#" onClick={this.Redirect.bind(this,"logout")}>LogOut</NavItem>
 				    </Nav>
 				  </Navbar>
 			</div>

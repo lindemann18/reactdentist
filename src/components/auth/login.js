@@ -3,6 +3,12 @@ import {reduxForm,Field} from 'redux-form';
 import * as actions from '../../actions';
 import {connect} from 'react-redux';
 
+const ReactToastr = require("react-toastr");
+const {ToastContainer} = ReactToastr; // This is a React Element.
+// For Non ES6...
+// var ToastContainer = ReactToastr.ToastContainer;
+const ToastMessageFactory = React.createFactory(ReactToastr.ToastMessage.animation);
+
 const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
 	  <fieldset className="form-group">
 	    <label htmlFor={input.name}>{label}</label>
@@ -17,28 +23,31 @@ class Login extends Component{
 		this.props.signinUser({user,password});
 	}
 
-	renderAlert()
+	componentDidUpdate()
 	{
 		if(this.props.errorMessage)
 		{
-			return(
-				<div className="alert alert-danger">
-					<strong>Oops! </strong>{this.props.errorMessage}
-				</div>
-			);
+			this.refs.container.error(this.props.errorMessage);
 		}
 	}
+
 
 	render()
 	{
 		const {handleSubmit} = this.props;
 
 		return(
-			<form className="col-md-6 col-md-offset-3" onSubmit={handleSubmit(this.handleformSubmit.bind(this))}>	
-				<Field name="user" component={renderField} type="text" label="Email"/>
-       			 <Field name="password" component={renderField} type="password" label="Password"/>
-       			<button action="submit" className="btn btn-primary">Login</button>
-			</form>
+			<div>
+				<ToastContainer ref="container"
+	                        toastMessageFactory={ToastMessageFactory}
+	                        className="toast-top-right" />
+				<form className="col-md-6 col-md-offset-3" onSubmit={handleSubmit(this.handleformSubmit.bind(this))}>	
+					<Field name="user" component={renderField} type="text" label="Email"/>
+	       			 <Field name="password" component={renderField} type="password" label="Password"/>
+	       			<button action="submit" className="btn btn-primary">Login</button>
+	       			
+				</form>
+			</div>
 		);
 	}
 
